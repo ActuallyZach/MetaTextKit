@@ -22,8 +22,19 @@ extension MetaContent {
         let stringRange = NSRange(location: 0, length: attributedString.length)
         for entity in entities {
             let range = NSIntersectionRange(stringRange, entity.range)
-            attributedString.addAttribute(.link, value: entity.primaryText, range: range)
-            attributedString.addAttribute(.foregroundColor, value: accentColor, range: range)
+            switch entity.meta {
+            case .mention(_, _, let userInfo):
+                if let href = userInfo?["href"] as? String {
+                    attributedString.addAttribute(.link, value: href, range: range)
+                    attributedString.addAttribute(.foregroundColor, value: accentColor, range: range)
+                } else {
+                    attributedString.addAttribute(.link, value: entity.primaryText, range: range)
+                    attributedString.addAttribute(.foregroundColor, value: accentColor, range: range)
+                }
+            default:
+                attributedString.addAttribute(.link, value: entity.primaryText, range: range)
+                attributedString.addAttribute(.foregroundColor, value: accentColor, range: range)
+            }
         }
 
         return AttributedString(attributedString)
