@@ -25,7 +25,7 @@ extension MetaContent {
             switch entity.meta {
             case .mention(_, _, let userInfo):
                 if let href = userInfo?["href"] as? String {
-                    attributedString.addAttribute(.link, value: href, range: range)
+                    attributedString.addAttribute(.link, value: "\(entity.primaryText)[\(href)]", range: range)
                     attributedString.addAttribute(.foregroundColor, value: accentColor, range: range)
                 } else {
                     attributedString.addAttribute(.link, value: entity.primaryText, range: range)
