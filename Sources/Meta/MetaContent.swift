@@ -5,6 +5,7 @@
 //  Created by Cirno MainasuK on 2021-6-25.
 //
 
+import Foundation
 import UIKit
 
 public protocol MetaContent {
@@ -31,20 +32,13 @@ extension MetaContent {
                     attributedString.addAttribute(.link, value: entity.primaryText, range: range)
                     attributedString.addAttribute(.foregroundColor, value: accentColor, range: range)
                 }
-            case .emoji(_, _, let url, _):
-                let attachment = NSTextAttachment()
-
-                DispatchQueue.main.async {
-                    do {
-                        attachment.image = UIImage(data: try Data(contentsOf: URL(string: url)!))
-                    } catch {
-                        print(error)
-                    }
-                }
-                
-                let image = NSAttributedString(attachment: attachment)
-                attributedString.replaceCharacters(in: range, with: image)
-                break
+//            case .emoji(_, _, let url, _):
+//                let attachment = entity.meta
+//
+//                
+////                let image = NSAttributedString(attachment: attachment)
+////                attributedString.replaceCharacters(in: range, with: image)
+//                break
             default:
                 attributedString.addAttribute(.link, value: entity.primaryText, range: range)
                 attributedString.addAttribute(.foregroundColor, value: accentColor, range: range)
@@ -53,4 +47,5 @@ extension MetaContent {
 
         return AttributedString(attributedString)
     }
+    
 }
